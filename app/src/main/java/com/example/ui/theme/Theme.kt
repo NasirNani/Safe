@@ -5,7 +5,82 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+
+data class AppColors(
+    val isDark: Boolean,
+    val background: Color,
+    val surface: Color,
+    val surfaceVariant: Color,
+    val surfaceElevated: Color,
+    val textPrimary: Color,
+    val textSecondary: Color,
+    val textMuted: Color,
+    val border: Color,
+    val borderMedium: Color,
+    val goldPrimary: Color,
+    val goldLight: Color,
+    val goldPale: Color,
+    val goldBorder: Color,
+    val goldText: Color,
+    val primaryButtonBg: Color,
+    val primaryButtonText: Color,
+    val topBarBg: Color
+)
+
+val LightAppColors = AppColors(
+    isDark = false,
+    background = OffWhite,
+    surface = SurfaceCard,
+    surfaceVariant = Navy50,
+    surfaceElevated = Color.White,
+    textPrimary = TextPrimary,
+    textSecondary = TextSecondary,
+    textMuted = TextMuted,
+    border = BorderSubtle,
+    borderMedium = BorderMedium,
+    goldPrimary = GoldPrimary,
+    goldLight = GoldLight,
+    goldPale = GoldPale,
+    goldBorder = GoldBorder,
+    goldText = Gold900,
+    primaryButtonBg = Navy850,
+    primaryButtonText = GoldLight,
+    topBarBg = Navy900
+)
+
+val DarkAppColors = AppColors(
+    isDark = true,
+    background = Navy950,
+    surface = SurfaceCardDark,
+    surfaceVariant = Navy900,
+    surfaceElevated = Navy800,
+    textPrimary = TextOnNavy,
+    textSecondary = TextOnNavySecondary,
+    textMuted = Color(0xFF64748B),
+    border = BorderDark,
+    borderMedium = Color(0xFF2A4870),
+    goldPrimary = GoldPrimary,
+    goldLight = GoldLight,
+    goldPale = Navy850,
+    goldBorder = Color(0xFF6D521B),
+    goldText = GoldLight,
+    primaryButtonBg = GoldPrimary,
+    primaryButtonText = Navy950,
+    topBarBg = Navy950
+)
+
+val LocalAppColors = staticCompositionLocalOf { LightAppColors }
+
+object AppTheme {
+    val colors: AppColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppColors.current
+}
 
 private val LightColorScheme = lightColorScheme(
     primary = Navy850,
@@ -59,10 +134,13 @@ fun UmbrellaSafeTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val appColors = if (darkTheme) DarkAppColors else LightAppColors
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalAppColors provides appColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

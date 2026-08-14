@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,14 +36,16 @@ fun LawyerCard(
     onBookConsultation: (Lawyer) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val colors = AppTheme.colors
+
     Card(
         onClick = { onViewProfile(lawyer) },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = SurfaceCard
+            containerColor = colors.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp, pressedElevation = 4.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, BorderSubtle),
+        border = androidx.compose.foundation.BorderStroke(1.dp, colors.border),
         modifier = modifier
             .fillMaxWidth()
             .testTag("lawyer_card_${lawyer.id}")
@@ -68,14 +73,23 @@ fun LawyerCard(
                                 )
                             )
                         )
-                        .border(1.5.dp, GoldPrimary, RoundedCornerShape(14.dp)),
+                        .border(1.5.dp, colors.goldPrimary, RoundedCornerShape(14.dp)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = lawyer.getName(language).split(" ").take(2).mapNotNull { it.firstOrNull()?.toString() }.joinToString(""),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = GoldLight
-                    )
+                    if (lawyer.avatarDrawableRes != null) {
+                        Image(
+                            painter = painterResource(id = lawyer.avatarDrawableRes),
+                            contentDescription = lawyer.getName(language),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        Text(
+                            text = lawyer.getName(language).split(" ").take(2).mapNotNull { it.firstOrNull()?.toString() }.joinToString(""),
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = colors.goldLight
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.width(12.dp))
@@ -92,7 +106,7 @@ fun LawyerCard(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp
                             ),
-                            color = TextPrimary,
+                            color = colors.textPrimary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -100,7 +114,7 @@ fun LawyerCard(
                             Icon(
                                 imageVector = Icons.Default.Verified,
                                 contentDescription = "Verified Lawyer",
-                                tint = GoldPrimary,
+                                tint = colors.goldPrimary,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -111,7 +125,7 @@ fun LawyerCard(
                     Text(
                         text = lawyer.getTitle(language),
                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
-                        color = Navy700,
+                        color = if (colors.isDark) colors.goldLight else Navy700,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -125,13 +139,13 @@ fun LawyerCard(
                         Icon(
                             imageVector = Icons.Default.LocationOn,
                             contentDescription = "Location",
-                            tint = TextMuted,
+                            tint = colors.textMuted,
                             modifier = Modifier.size(12.dp)
                         )
                         Text(
                             text = lawyer.getGovernorate(language),
                             style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                            color = TextSecondary
+                            color = colors.textSecondary
                         )
                     }
                 }
@@ -144,7 +158,7 @@ fun LawyerCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Navy50)
+                    .background(colors.surfaceVariant)
                     .padding(horizontal = 10.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -163,12 +177,12 @@ fun LawyerCard(
                     Text(
                         text = "${lawyer.rating}",
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = TextPrimary
+                        color = colors.textPrimary
                     )
                     Text(
                         text = "(${lawyer.reviewsCount})",
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextMuted
+                        color = colors.textMuted
                     )
                 }
 
@@ -180,13 +194,13 @@ fun LawyerCard(
                     Icon(
                         imageVector = Icons.Default.WorkHistory,
                         contentDescription = "Experience",
-                        tint = Navy600,
+                        tint = if (colors.isDark) colors.goldLight else Navy600,
                         modifier = Modifier.size(14.dp)
                     )
                     Text(
                         text = if (language == AppLanguage.ARABIC) "${lawyer.experienceYears} سنة خبرة" else "${lawyer.experienceYears} yrs exp.",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
-                        color = TextSecondary
+                        color = colors.textSecondary
                     )
                 }
 
@@ -194,7 +208,7 @@ fun LawyerCard(
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(6.dp))
-                        .background(GoldPale)
+                        .background(colors.goldPale)
                         .padding(horizontal = 6.dp, vertical = 2.dp)
                 ) {
                     Text(
@@ -203,7 +217,7 @@ fun LawyerCard(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp
                         ),
-                        color = Gold900
+                        color = colors.goldText
                     )
                 }
             }
@@ -220,7 +234,7 @@ fun LawyerCard(
                     Text(
                         text = AppStrings.consultationFee.get(language),
                         style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                        color = TextMuted
+                        color = colors.textMuted
                     )
                     Row(
                         verticalAlignment = Alignment.Bottom,
@@ -230,14 +244,14 @@ fun LawyerCard(
                             text = "${lawyer.consultationFeeEgp}",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = Navy900,
+                                color = if (colors.isDark) colors.goldLight else Navy900,
                                 fontSize = 17.sp
                             )
                         )
                         Text(
                             text = AppStrings.egp.get(language),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
-                            color = Gold800,
+                            color = colors.goldPrimary,
                             modifier = Modifier.padding(bottom = 2.dp)
                         )
                     }
@@ -248,13 +262,13 @@ fun LawyerCard(
                         onClick = { onViewProfile(lawyer) },
                         shape = RoundedCornerShape(10.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Navy700),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, if (colors.isDark) colors.goldPrimary.copy(alpha = 0.6f) else Navy700),
                         modifier = Modifier.height(38.dp)
                     ) {
                         Text(
                             text = AppStrings.viewProfile.get(language),
                             style = MaterialTheme.typography.labelMedium,
-                            color = Navy850
+                            color = if (colors.isDark) colors.goldLight else Navy850
                         )
                     }
 
@@ -262,8 +276,8 @@ fun LawyerCard(
                         onClick = { onBookConsultation(lawyer) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Navy850,
-                            contentColor = GoldLight
+                            containerColor = colors.primaryButtonBg,
+                            contentColor = colors.primaryButtonText
                         ),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
                         modifier = Modifier.height(38.dp)

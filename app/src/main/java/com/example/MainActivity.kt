@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UmbrellaSafeApp() {
     val context = LocalContext.current
+    var isDarkMode by remember { mutableStateOf(false) }
     var currentLanguage by remember { mutableStateOf(AppLanguage.ARABIC) }
     var currentTab by remember { mutableStateOf(AppTab.HOME) }
     var selectedCategoryForLawyers by remember { mutableStateOf<PracticeAreaCategory?>(null) }
@@ -72,7 +73,7 @@ fun UmbrellaSafeApp() {
     }
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
-        UmbrellaSafeTheme {
+        UmbrellaSafeTheme(darkTheme = isDarkMode) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
@@ -95,6 +96,7 @@ fun UmbrellaSafeApp() {
                         topBar = {
                             AppTopBar(
                                 currentLanguage = currentLanguage,
+                                isDarkMode = isDarkMode,
                                 unreadNotificationsCount = unreadNotificationsCount,
                                 onOpenNotifications = { showNotificationsSheet = true },
                                 onToggleLanguage = {
@@ -104,6 +106,7 @@ fun UmbrellaSafeApp() {
                                         AppLanguage.ARABIC
                                     }
                                 },
+                                onToggleTheme = { isDarkMode = !isDarkMode },
                                 onCallHotline = { showHotlineDialog = true }
                             )
                         },
@@ -177,6 +180,8 @@ fun UmbrellaSafeApp() {
                                     AppTab.PROFILE -> {
                                         ProfileScreen(
                                             language = currentLanguage,
+                                            isDarkMode = isDarkMode,
+                                            onToggleTheme = { isDarkMode = !isDarkMode },
                                             onToggleLanguage = {
                                                 currentLanguage = if (currentLanguage == AppLanguage.ARABIC) {
                                                     AppLanguage.ENGLISH

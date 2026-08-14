@@ -1,5 +1,6 @@
 package com.example.data
 
+import com.example.R
 import com.example.model.*
 
 object MockData {
@@ -28,7 +29,8 @@ object MockData {
             isVerified = true,
             isAvailableOnline = true,
             casesWonCount = 310,
-            avatarColorHex = 0xFF14294A
+            avatarColorHex = 0xFF14294A,
+            avatarDrawableRes = R.drawable.img_lawyer_male_1
         ),
         Lawyer(
             id = "lawyer_2",
@@ -53,7 +55,8 @@ object MockData {
             isVerified = true,
             isAvailableOnline = true,
             casesWonCount = 240,
-            avatarColorHex = 0xFF785B0D
+            avatarColorHex = 0xFF785B0D,
+            avatarDrawableRes = R.drawable.img_lawyer_female_1
         ),
         Lawyer(
             id = "lawyer_3",
@@ -78,7 +81,8 @@ object MockData {
             isVerified = true,
             isAvailableOnline = true,
             casesWonCount = 295,
-            avatarColorHex = 0xFF1E3661
+            avatarColorHex = 0xFF1E3661,
+            avatarDrawableRes = R.drawable.img_lawyer_male_2
         ),
         Lawyer(
             id = "lawyer_4",

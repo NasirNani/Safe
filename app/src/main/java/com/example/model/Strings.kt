@@ -166,5 +166,53 @@ object AppStrings {
     val feedbackSuccessTitle = LocalizedText(ar = "شكراً لمشاركتك القيّمة!", en = "Thank You for Your Feedback!")
     val feedbackSuccessMessage = LocalizedText(ar = "تم تسجيل ملاحظاتك برقم تذكرة (#FB-2026-891). يعمل فريق منصة مظلة على مراجعتها لتحسين التجربة القانونية.", en = "Your feedback has been logged with ticket (#FB-2026-891). Our team will review it to enhance the legal platform.")
     val backToProfile = LocalizedText(ar = "العودة للحساب", en = "Back to Account")
+    val themeSetting = LocalizedText(ar = "المظهر والوضع الليلي", en = "Appearance & Dark Mode")
+    val darkMode = LocalizedText(ar = "الوضع الليلي (الداكن)", en = "Dark Mode")
+    val lightMode = LocalizedText(ar = "الوضع الفاتح (النهاري)", en = "Light Mode")
+    val themeSubtitle = LocalizedText(ar = "تباين عالي بلمسات ذهبية مريحة للعين في الاستشارات الليلية", en = "High-contrast palette with gold accents for comfortable reading")
     val version = LocalizedText(ar = "الإصدار التجريبي ١.٠ - مصر", en = "Prototype v1.0 - Egypt")
+
+    // Gemini AI Legal Assistant Features
+    val geminiAssistantTitle = LocalizedText(ar = "المستشار القانوني الذكي (Gemini AI)", en = "Gemini AI Legal Advisor")
+    val geminiAssistantSubtitle = LocalizedText(
+        ar = "استشارات فورية، فحص مستندات بالصور، تحليل الأدلة بالفيديو، وتفكير قانوني معمق",
+        en = "Instant consultations, image document audit, video evidence forensics & high thinking mode"
+    )
+    val tabAiChat = LocalizedText(ar = "محادثة المستشار الذكي", en = "AI Legal Chat")
+    val tabImageAnalysis = LocalizedText(ar = "فحص المستندات بالصور", en = "Document Image Audit")
+    val tabVideoAnalysis = LocalizedText(ar = "تحليل الأدلة بالفيديو", en = "Video Evidence Forensics")
+    
+    val selectModel = LocalizedText(ar = "النموذج الذكي:", en = "AI Model:")
+    val modelPro = LocalizedText(ar = "Gemini 3.1 Pro (للقضايا المعقدة)", en = "Gemini 3.1 Pro (Complex Cases)")
+    val modelFlash = LocalizedText(ar = "Gemini 3.5 Flash (عام وسريع)", en = "Gemini 3.5 Flash (General & Fast)")
+    val modelFlashLite = LocalizedText(ar = "Gemini 3.1 Flash Lite (فائق السرعة)", en = "Gemini 3.1 Flash Lite (Ultra Fast)")
+
+    val highThinkingMode = LocalizedText(ar = "وضع التفكير المعمق (High Thinking)", en = "Deep Thinking Mode (High Thinking)")
+    val highThinkingActive = LocalizedText(
+        ar = "مفعّل: تحليل استراتيجي متعمق للدفوع ومبادئ محكمة النقض بنموذج Gemini 3.1 Pro",
+        en = "Active: Deep strategic analysis of defenses & Cassation precedents via Gemini 3.1 Pro"
+    )
+    val thoughtsProcess = LocalizedText(ar = "مسار التفكير القانوني المعمق (Thinking Process)", en = "Legal Thinking Process")
+
+    // Image Audit
+    val imageAnalysisTitle = LocalizedText(ar = "فحص المستندات والعقود بالصور (Gemini Pro)", en = "Document & Contract Visual Audit (Gemini Pro)")
+    val imageAnalysisSubtitle = LocalizedText(ar = "كشف الثغرات والتدقيق القانوني للعقود والتوكيلات بموديل Gemini 3.1 Pro", en = "Find loopholes & audit contracts and POAs with Gemini 3.1 Pro")
+    val uploadDocImage = LocalizedText(ar = "رفع أو تصوير مستند", en = "Upload / Snap Document")
+    val selectSampleDoc = LocalizedText(ar = "أو اختر نموذجاً جاهزاً للفحص الفوري:", en = "Or pick a sample document for instant audit:")
+    val runDocAudit = LocalizedText(ar = "فحص وتدقيق المستند بواسطة Gemini Pro", en = "Audit Document with Gemini Pro")
+    val docAuditPromptHint = LocalizedText(ar = "اكتب تعليمات خاصة للفحص أو اضغط زر التحليل المباشر...", en = "Type custom audit instructions or tap run analysis...")
+
+    // Video Forensics
+    val videoAnalysisTitle = LocalizedText(ar = "تحليل الأدلة والفيديوهات (Gemini Pro)", en = "Video Evidence & Forensic Analysis (Gemini Pro)")
+    val videoAnalysisSubtitle = LocalizedText(ar = "تحليل حوادث السير، كاميرات المراقبة، وتحديد المسؤوليات بنموذج Gemini 3.1 Pro", en = "Analyze accidents, CCTV & determine liabilities with Gemini 3.1 Pro")
+    val uploadVideo = LocalizedText(ar = "رفع فيديو واقعة أو حادث", en = "Upload Incident / Evidence Video")
+    val selectSampleVideo = LocalizedText(ar = "أو اختر واقعة مصورة للتحليل الجنائي والمدني:", en = "Or pick a forensic sample incident:")
+    val runVideoAnalysis = LocalizedText(ar = "تحليل الفيديو واستخراج الأدلة بواسطة Gemini Pro", en = "Analyze Video & Extract Evidence (Gemini Pro)")
+    val videoAnalysisPromptHint = LocalizedText(ar = "اكتب استفسارك حول التسجيل المرئي أو استخرج المسؤوليات القانونية...", en = "Ask about this video footage or extract statutory liability...")
+    
+    val clearChat = LocalizedText(ar = "مسح المحادثة", en = "Clear Chat")
+    val newSession = LocalizedText(ar = "جلسة استشارة جديدة", en = "New Session")
+    val copyAdvice = LocalizedText(ar = "نسخ الاستشارة", en = "Copy Advice")
+    val copiedToast = LocalizedText(ar = "تم نسخ الاستشارة القانونية إلى الحافظة", en = "Legal advice copied to clipboard")
+    val analyzingWithGemini = LocalizedText(ar = "جارٍ الفحص والتحليل القانوني بواسطة Gemini...", en = "Analyzing with Gemini Legal AI...")
 }

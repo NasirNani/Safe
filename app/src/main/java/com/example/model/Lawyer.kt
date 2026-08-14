@@ -23,7 +23,8 @@ data class Lawyer(
     val isVerified: Boolean = true,
     val isAvailableOnline: Boolean = true,
     val casesWonCount: Int = 180,
-    val avatarColorHex: Long = 0xFF1E3A70
+    val avatarColorHex: Long = 0xFF1E3A70,
+    val avatarDrawableRes: Int? = null
 ) {
     fun getName(language: AppLanguage): String = if (language == AppLanguage.ARABIC) nameAr else nameEn
     fun getTitle(language: AppLanguage): String = if (language == AppLanguage.ARABIC) titleAr else titleEn

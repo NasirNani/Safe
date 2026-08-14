@@ -1,5 +1,7 @@
 package com.example.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,15 +18,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.MockData
 import com.example.model.*
 import com.example.ui.components.CategoryCard
@@ -46,10 +52,12 @@ fun HomeScreen(
     unreadNotificationsCount: Int = 0,
     modifier: Modifier = Modifier
 ) {
+    val colors = AppTheme.colors
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(OffWhite)
+            .background(colors.background)
             .testTag("home_screen"),
         contentPadding = PaddingValues(bottom = 90.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
@@ -62,13 +70,26 @@ fun HomeScreen(
                     .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                     .background(
                         Brush.verticalGradient(
-                            listOf(Navy900, Navy850, Navy800)
+                            listOf(Navy950, Navy900, Navy850)
                         )
                     )
-                    .padding(horizontal = 20.dp, vertical = 20.dp)
                     .testTag("home_hero_banner")
             ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
+                // Real Hero Background Image
+                Image(
+                    painter = painterResource(id = R.drawable.img_legal_hero),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .alpha(0.24f)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                ) {
                     // Badge: Ministry / Legal Accreditation
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -249,15 +270,165 @@ fun HomeScreen(
             }
         }
 
+        // Gemini AI Legal Studio Showcase Card
+        item {
+            Card(
+                onClick = onNavigateToChat,
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = if (colors.isDark) Navy900 else Navy850),
+                border = BorderStroke(1.dp, colors.goldBorder),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .testTag("home_gemini_studio_card")
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(Navy700)
+                                    .border(1.dp, colors.goldPrimary, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Psychology,
+                                    contentDescription = null,
+                                    tint = colors.goldLight,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Column {
+                                Text(
+                                    text = if (language == AppLanguage.ARABIC) "المستشار القانوني الذكي (Gemini AI)" else "Gemini AI Legal Studio",
+                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = if (language == AppLanguage.ARABIC) "Gemini 3.1 Pro + Gemini 3.5 Flash" else "Powered by Gemini Pro & Flash",
+                                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
+                                    color = colors.goldLight
+                                )
+                            }
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(20.dp),
+                            color = colors.goldPale,
+                            border = BorderStroke(0.5.dp, colors.goldBorder)
+                        ) {
+                            Text(
+                                text = if (language == AppLanguage.ARABIC) "تفكير معمق HIGH" else "HIGH THINKING",
+                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 9.sp),
+                                color = colors.goldText,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = if (language == AppLanguage.ARABIC)
+                            "استشارات فورية متعددة الجلسات، تدقيق العقود والمستندات بالصور، وتحليل الأدلة الجنائية والمدنية بالفيديو وفق القانون المصري."
+                        else
+                            "Multi-turn AI legal consultations, document image auditing, and video evidence forensics according to Egyptian Law.",
+                        style = MaterialTheme.typography.bodySmall.copy(lineHeight = 18.sp),
+                        color = TextOnNavySecondary
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = Navy700,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(Icons.Default.Chat, contentDescription = null, tint = colors.goldLight, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = if (language == AppLanguage.ARABIC) "محادثة فورية" else "AI Chat",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                                    color = Color.White
+                                )
+                            }
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = Navy700,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(Icons.Default.DocumentScanner, contentDescription = null, tint = colors.goldLight, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = if (language == AppLanguage.ARABIC) "فحص المستندات" else "Doc Audit",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                                    color = Color.White
+                                )
+                            }
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = Navy700,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(Icons.Default.VideoLibrary, contentDescription = null, tint = colors.goldLight, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = if (language == AppLanguage.ARABIC) "تحليل الفيديو" else "Video Proof",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Recent Updates & Notification Banner
         item {
             Card(
                 onClick = onOpenNotifications,
                 shape = RoundedCornerShape(14.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceCard),
+                colors = CardDefaults.cardColors(containerColor = colors.surface),
                 border = androidx.compose.foundation.BorderStroke(
                     1.dp,
-                    if (unreadNotificationsCount > 0) GoldBorder else BorderSubtle
+                    if (unreadNotificationsCount > 0) colors.goldBorder else colors.border
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                 modifier = Modifier
@@ -281,13 +452,13 @@ fun HomeScreen(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(if (unreadNotificationsCount > 0) GoldPale else Navy50),
+                                .background(if (unreadNotificationsCount > 0) colors.goldPale else colors.surfaceVariant),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.NotificationsActive,
                                 contentDescription = null,
-                                tint = if (unreadNotificationsCount > 0) Gold900 else Navy800,
+                                tint = if (unreadNotificationsCount > 0) colors.goldPrimary else (if (colors.isDark) colors.goldLight else Navy800),
                                 modifier = Modifier.size(22.dp)
                             )
                         }
@@ -303,7 +474,7 @@ fun HomeScreen(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 13.sp
                                     ),
-                                    color = TextPrimary
+                                    color = colors.textPrimary
                                 )
                                 if (unreadNotificationsCount > 0) {
                                     Surface(
@@ -329,7 +500,7 @@ fun HomeScreen(
                                 else
                                     "Reply from Dr. Tarek & case review accepted (UMB-2026-8812)",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = TextSecondary,
+                                color = colors.textSecondary,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -339,7 +510,7 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "View all notifications",
-                        tint = GoldPrimary,
+                        tint = colors.goldPrimary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -365,12 +536,12 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp
                             ),
-                            color = TextPrimary
+                            color = colors.textPrimary
                         )
                         Text(
                             text = AppStrings.practiceAreasSubtitle.get(language),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = colors.textSecondary
                         )
                     }
                 }
@@ -403,7 +574,7 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     ),
-                    color = TextPrimary
+                    color = colors.textPrimary
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -416,8 +587,8 @@ fun HomeScreen(
                     Card(
                         onClick = onNavigateToContracts,
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = SurfaceCard),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, BorderSubtle),
+                        colors = CardDefaults.cardColors(containerColor = colors.surface),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, colors.border),
                         modifier = Modifier
                             .weight(1f)
                             .testTag("home_quick_contracts_card")
@@ -427,14 +598,14 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .size(38.dp)
                                     .clip(RoundedCornerShape(10.dp))
-                                    .background(GoldPale)
-                                    .border(1.dp, GoldBorder, RoundedCornerShape(10.dp)),
+                                    .background(colors.goldPale)
+                                    .border(1.dp, colors.goldBorder, RoundedCornerShape(10.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Description,
                                     contentDescription = null,
-                                    tint = Gold900,
+                                    tint = colors.goldText,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -442,13 +613,13 @@ fun HomeScreen(
                             Text(
                                 text = if (language == AppLanguage.ARABIC) "نماذج العقود" else "Contract Drafts",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = TextPrimary
+                                color = colors.textPrimary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = if (language == AppLanguage.ARABIC) "صيغ موثقة ومطابقة للقانون" else "Certified legal templates",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = TextSecondary,
+                                color = colors.textSecondary,
                                 maxLines = 2
                             )
                         }
@@ -458,8 +629,8 @@ fun HomeScreen(
                     Card(
                         onClick = onNavigateToRulings,
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = SurfaceCard),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, BorderSubtle),
+                        colors = CardDefaults.cardColors(containerColor = colors.surface),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, colors.border),
                         modifier = Modifier
                             .weight(1f)
                             .testTag("home_quick_rulings_card")
@@ -469,14 +640,14 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .size(38.dp)
                                     .clip(RoundedCornerShape(10.dp))
-                                    .background(Navy50)
-                                    .border(1.dp, Navy100, RoundedCornerShape(10.dp)),
+                                    .background(colors.surfaceVariant)
+                                    .border(1.dp, colors.border, RoundedCornerShape(10.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Balance,
                                     contentDescription = null,
-                                    tint = Navy800,
+                                    tint = if (colors.isDark) colors.goldLight else Navy800,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -484,13 +655,13 @@ fun HomeScreen(
                             Text(
                                 text = if (language == AppLanguage.ARABIC) "أحكام النقض" else "Court Rulings",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = TextPrimary
+                                color = colors.textPrimary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = if (language == AppLanguage.ARABIC) "مبادئ الدوائر القضائية" else "Cassation legal principles",
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                                color = TextSecondary,
+                                color = colors.textSecondary,
                                 maxLines = 2
                             )
                         }
@@ -518,12 +689,12 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp
                             ),
-                            color = TextPrimary
+                            color = colors.textPrimary
                         )
                         Text(
                             text = AppStrings.featuredLawyersSubtitle.get(language),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = colors.textSecondary
                         )
                     }
                 }
@@ -550,8 +721,8 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Navy50)
-                    .border(1.dp, Navy100, RoundedCornerShape(12.dp))
+                    .background(colors.surfaceVariant)
+                    .border(1.dp, colors.border, RoundedCornerShape(12.dp))
                     .padding(14.dp)
             ) {
                 Row(
@@ -561,7 +732,7 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.Default.Gavel,
                         contentDescription = null,
-                        tint = Gold800,
+                        tint = colors.goldPrimary,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
@@ -570,7 +741,7 @@ fun HomeScreen(
                             fontSize = 11.sp,
                             lineHeight = 16.sp
                         ),
-                        color = TextSecondary
+                        color = colors.textSecondary
                     )
                 }
             }

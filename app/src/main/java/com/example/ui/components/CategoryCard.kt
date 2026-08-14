@@ -57,15 +57,16 @@ fun CategoryCard(
 ) {
     val icon = getCategoryIcon(category)
     val (colorStart, colorEnd) = getCategoryGradient(category)
+    val colors = AppTheme.colors
 
     Card(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = SurfaceCard
+            containerColor = colors.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp, pressedElevation = 6.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, BorderSubtle),
+        border = androidx.compose.foundation.BorderStroke(1.dp, colors.border),
         modifier = modifier
             .fillMaxWidth()
             .testTag("category_card_${category.id}")
@@ -88,13 +89,13 @@ fun CategoryCard(
                         .background(
                             Brush.linearGradient(listOf(colorStart, colorEnd))
                         )
-                        .border(1.dp, GoldPrimary.copy(alpha = 0.5f), RoundedCornerShape(12.dp)),
+                        .border(1.dp, colors.goldPrimary.copy(alpha = 0.5f), RoundedCornerShape(12.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = category.getDisplayName(language),
-                        tint = GoldPrimary,
+                        tint = colors.goldPrimary,
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -102,13 +103,13 @@ fun CategoryCard(
                 // Active cases count badge
                 Surface(
                     shape = RoundedCornerShape(20.dp),
-                    color = Navy50,
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Navy100)
+                    color = colors.surfaceVariant,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, colors.border)
                 ) {
                     Text(
                         text = if (language == AppLanguage.ARABIC) "${category.activeCasesCount} محامٍ" else "${category.activeCasesCount} Lawyers",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                        color = Navy700,
+                        color = if (colors.isDark) colors.goldLight else Navy700,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
@@ -123,7 +124,7 @@ fun CategoryCard(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 ),
-                color = TextPrimary
+                color = colors.textPrimary
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -134,7 +135,7 @@ fun CategoryCard(
                 style = MaterialTheme.typography.bodySmall.copy(
                     lineHeight = 16.sp
                 ),
-                color = TextSecondary,
+                color = colors.textSecondary,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -150,14 +151,14 @@ fun CategoryCard(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))
-                            .background(GoldPale)
-                            .border(0.5.dp, GoldBorder.copy(alpha = 0.6f), RoundedCornerShape(6.dp))
+                            .background(colors.goldPale)
+                            .border(0.5.dp, colors.goldBorder.copy(alpha = 0.6f), RoundedCornerShape(6.dp))
                             .padding(horizontal = 6.dp, vertical = 3.dp)
                     ) {
                         Text(
                             text = sub,
                             style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                            color = Gold900,
+                            color = colors.goldText,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

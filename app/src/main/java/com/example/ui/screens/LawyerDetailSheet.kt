@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -223,20 +226,29 @@ fun LawyerProfileDetailContent(
                                     .border(3.dp, GoldPrimary, CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
-                                val initials = lawyer.getName(language)
-                                    .split(" ")
-                                    .take(2)
-                                    .mapNotNull { it.firstOrNull()?.toString() }
-                                    .joinToString("")
+                                if (lawyer.avatarDrawableRes != null) {
+                                    Image(
+                                        painter = painterResource(id = lawyer.avatarDrawableRes),
+                                        contentDescription = lawyer.getName(language),
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                } else {
+                                    val initials = lawyer.getName(language)
+                                        .split(" ")
+                                        .take(2)
+                                        .mapNotNull { it.firstOrNull()?.toString() }
+                                        .joinToString("")
 
-                                Text(
-                                    text = initials,
-                                    style = MaterialTheme.typography.headlineMedium.copy(
-                                        fontWeight = FontWeight.ExtraBold,
-                                        letterSpacing = 1.sp
-                                    ),
-                                    color = GoldLight
-                                )
+                                    Text(
+                                        text = initials,
+                                        style = MaterialTheme.typography.headlineMedium.copy(
+                                            fontWeight = FontWeight.ExtraBold,
+                                            letterSpacing = 1.sp
+                                        ),
+                                        color = GoldLight
+                                    )
+                                }
                             }
 
                             // Online Status Indicator

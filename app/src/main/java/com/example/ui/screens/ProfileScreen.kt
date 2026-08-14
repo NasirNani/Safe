@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -40,6 +42,8 @@ enum class UserProfileTab {
 @Composable
 fun ProfileScreen(
     language: AppLanguage,
+    isDarkMode: Boolean = false,
+    onToggleTheme: () -> Unit = {},
     onToggleLanguage: () -> Unit,
     onNavigateToPostCase: () -> Unit,
     onCallHotline: () -> Unit,
@@ -851,6 +855,53 @@ fun ProfileScreen(
                                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
                                     )
                                 }
+                            }
+
+                            Divider(color = BorderSubtle)
+
+                            // Dark / Light Theme Mode Setting
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .testTag("profile_theme_setting_row"),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Icon(
+                                        imageVector = if (isDarkMode) Icons.Filled.LightMode else Icons.Filled.DarkMode,
+                                        contentDescription = null,
+                                        tint = GoldPrimary
+                                    )
+                                    Column {
+                                        Text(
+                                            text = AppStrings.themeSetting.get(language),
+                                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                                            color = TextPrimary
+                                        )
+                                        Text(
+                                            text = if (isDarkMode) AppStrings.darkMode.get(language) else AppStrings.lightMode.get(language),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = TextSecondary
+                                        )
+                                    }
+                                }
+
+                                Switch(
+                                    checked = isDarkMode,
+                                    onCheckedChange = { onToggleTheme() },
+                                    colors = SwitchDefaults.colors(
+                                        checkedThumbColor = Color.White,
+                                        checkedTrackColor = GoldPrimary,
+                                        uncheckedThumbColor = Navy800,
+                                        uncheckedTrackColor = BorderSubtle
+                                    ),
+                                    modifier = Modifier.testTag("profile_theme_switch")
+                                )
                             }
 
                             Divider(color = BorderSubtle)
